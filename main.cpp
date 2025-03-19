@@ -5,21 +5,24 @@
 using namespace std;
 
 void draw_board() {
-    // origin: 5,10
+    // origin: y = 5, x = 10
     vector<int> origin = {5, 10};
 
     int height = 3;
     int width = height * 3;
 
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 3; j++) {
-            mvvline(origin[0] + (j * height), origin[1] + width + (i * width), ACS_VLINE, height);
-            mvhline(origin[0] + height + (i * height), origin[1] + (j * width), ACS_HLINE, width);
-        }
+    for (int i = 1; i < 3; i++) {
+        mvvline(origin[0], origin[1] + (i * width), ACS_VLINE, (3 * height) + 1);
+    }
+    for (int j = 1; j < 3; j++) {
+        mvhline(origin[0] + (j * height), origin[1], ACS_HLINE, (3 * width) + 1);
     }
 
-    //for (int i = 0; i < 2; i++) {
-    //}
+    for (int i = 1; i < 3; i++) {
+        for (int j = 1; j < 3; j++) {
+            mvaddch(origin[0] + (i * height), origin[1] + (j * width), ACS_PLUS);
+        }
+    }
 }
 
 int main() {
