@@ -42,14 +42,14 @@ void draw_board(WINDOW *win, int boardOriginY, int boardOriginX, int cell_height
     //}
 }
 
-void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX, int cell_height, int cell_width, vector<vector<int>> &intersections) {
+void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX, int cell_height, int cell_width, vector<vector<int>> &intersections, char *ch) {
     
     int put_y = (cell_height + boardOriginY) / 2;
     int put_x = (cell_width + boardOriginX) / 2;
     // cell 1
     if (wy > boardOriginY && wy < boardOriginY + cell_height && wx > boardOriginX && wx < boardOriginX + cell_width) {
         if (cell_1_marked == 0) {
-            mvwprintw(win, put_y, put_x, "X");
+            mvwprintw(win, put_y, put_x, "%s", ch);
             cell_1_marked = 1;
         }
     }
@@ -57,7 +57,7 @@ void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX,
     // cell 2
     if (wy > boardOriginY && wy < boardOriginY + cell_height && wx > boardOriginX + cell_width && wx < boardOriginX + (cell_width*2)) {
         if (cell_2_marked == 0) {
-            mvwprintw(win, put_y, put_x + cell_width, "X");
+            mvwprintw(win, put_y, put_x + cell_width, "%s", ch);
             cell_2_marked = 1;
         }
     }
@@ -65,7 +65,7 @@ void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX,
     // cell 3
     if (wy > boardOriginY && wy < boardOriginY + cell_height && wx > boardOriginX + (cell_width*2) && wx < boardOriginX + (cell_width*3)) {
         if (cell_3_marked == 0) {
-            mvwprintw(win, put_y, put_x + (cell_width*2), "X");
+            mvwprintw(win, put_y, put_x + (cell_width*2), "%s", ch);
             cell_3_marked = 1;
         }
     }
@@ -73,7 +73,7 @@ void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX,
     // cell 4
     if (wy > boardOriginY + cell_height && wy < boardOriginY + (cell_height*2) && wx > boardOriginX && wx < boardOriginX + cell_width) {
         if (cell_4_marked == 0) {
-            mvwprintw(win, put_y + cell_height, put_x, "X");
+            mvwprintw(win, put_y + cell_height, put_x, "%s", ch);
             cell_4_marked = 1;
         }
     }
@@ -81,7 +81,7 @@ void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX,
     // cell 5
     if (wy > boardOriginY + cell_height && wy < boardOriginY + (cell_height*2) && wx > boardOriginX + cell_width && wx < boardOriginX + (cell_width*2)) {
         if (cell_5_marked == 0) {
-            mvwprintw(win, put_y + cell_height, put_x + cell_width, "X");
+            mvwprintw(win, put_y + cell_height, put_x + cell_width, "%s", ch);
             cell_5_marked = 1;
         }
     }
@@ -89,7 +89,7 @@ void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX,
     // cell 6
     if (wy > boardOriginY + cell_height && wy < boardOriginY + (cell_height*2) && wx > boardOriginX + (cell_width*2) && wx < boardOriginX + (cell_width*3)) {
         if (cell_6_marked == 0) {
-            mvwprintw(win, put_y + cell_height, put_x + (cell_width*2), "X");
+            mvwprintw(win, put_y + cell_height, put_x + (cell_width*2), "%s", ch);
             cell_6_marked = 1;
         }
     }
@@ -97,7 +97,7 @@ void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX,
     // cell 7
     if (wy > boardOriginY + (cell_height*2) && wy < boardOriginY + (cell_height*3) && wx > boardOriginX && wx < boardOriginX + cell_width) {
         if (cell_7_marked == 0) {
-            mvwprintw(win, put_y + (cell_height*2) + 1, put_x, "X");
+            mvwprintw(win, put_y + (cell_height*2) + 1, put_x, "%s", ch);
             cell_7_marked = 1;
         }
     }
@@ -105,7 +105,7 @@ void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX,
     // cell 8
     if (wy > boardOriginY + (cell_height*2) && wy < boardOriginY + (cell_height*3) && wx > boardOriginX + cell_width && wx < boardOriginX + (cell_width*2)) {
         if (cell_8_marked == 0) {
-            mvwprintw(win, put_y + (cell_height*2) + 1, put_x + cell_width, "X");
+            mvwprintw(win, put_y + (cell_height*2) + 1, put_x + cell_width, "%s", ch);
             cell_8_marked = 1;
         }
     }
@@ -113,7 +113,7 @@ void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX,
     // cell 9
     if (wy > boardOriginY + (cell_height*2) && wy < boardOriginY + (cell_height*3) && wx > boardOriginX + (cell_width*2) && wx < boardOriginX + (cell_width*3)) {
         if (cell_9_marked == 0) {
-            mvwprintw(win, put_y + (cell_height*2) + 1, put_x + (cell_width*2), "X");
+            mvwprintw(win, put_y + (cell_height*2) + 1, put_x + (cell_width*2), "%s", ch);
             cell_9_marked = 1;
         }
     }
@@ -134,6 +134,7 @@ int main() {
     vector<vector<int>> intersections;
 
     int click_x, click_y, ch;
+    char player_char[] = "O";
 
     initscr();
     noecho();
@@ -170,7 +171,7 @@ int main() {
               if (event.bstate & BUTTON1_CLICKED) {
                   click_y = event.y - win_originY;
                   click_x = event.x - win_originX;
-                  mark_input(main_win, click_y, click_x, board_originY, board_originX, cell_height, cell_width, intersections);
+                  mark_input(main_win, click_y, click_x, board_originY, board_originX, cell_height, cell_width, intersections, player_char);
               }
         }
         napms(10);
