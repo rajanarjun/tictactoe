@@ -44,24 +44,79 @@ void draw_board(WINDOW *win, int boardOriginY, int boardOriginX, int cell_height
 
 void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX, int cell_height, int cell_width, vector<vector<int>> &intersections) {
     
+    int put_y = (cell_height + boardOriginY) / 2;
+    int put_x = (cell_width + boardOriginX) / 2;
     // cell 1
     if (wy > boardOriginY && wy < boardOriginY + cell_height && wx > boardOriginX && wx < boardOriginX + cell_width) {
         if (cell_1_marked == 0) {
-            int put_y = (cell_height + boardOriginY) / 2;
-            int put_x = (cell_width + boardOriginX) / 2;
             mvwprintw(win, put_y, put_x, "X");
             cell_1_marked = 1;
         }
     }
 
     // cell 2
+    if (wy > boardOriginY && wy < boardOriginY + cell_height && wx > boardOriginX + cell_width && wx < boardOriginX + (cell_width*2)) {
+        if (cell_2_marked == 0) {
+            mvwprintw(win, put_y, put_x + cell_width, "X");
+            cell_2_marked = 1;
+        }
+    }
+
     // cell 3
+    if (wy > boardOriginY && wy < boardOriginY + cell_height && wx > boardOriginX + (cell_width*2) && wx < boardOriginX + (cell_width*3)) {
+        if (cell_3_marked == 0) {
+            mvwprintw(win, put_y, put_x + (cell_width*2), "X");
+            cell_3_marked = 1;
+        }
+    }
+
     // cell 4
+    if (wy > boardOriginY + cell_height && wy < boardOriginY + (cell_height*2) && wx > boardOriginX && wx < boardOriginX + cell_width) {
+        if (cell_4_marked == 0) {
+            mvwprintw(win, put_y + cell_height, put_x, "X");
+            cell_4_marked = 1;
+        }
+    }
+
     // cell 5
+    if (wy > boardOriginY + cell_height && wy < boardOriginY + (cell_height*2) && wx > boardOriginX + cell_width && wx < boardOriginX + (cell_width*2)) {
+        if (cell_5_marked == 0) {
+            mvwprintw(win, put_y + cell_height, put_x + cell_width, "X");
+            cell_5_marked = 1;
+        }
+    }
+
     // cell 6
+    if (wy > boardOriginY + cell_height && wy < boardOriginY + (cell_height*2) && wx > boardOriginX + (cell_width*2) && wx < boardOriginX + (cell_width*3)) {
+        if (cell_6_marked == 0) {
+            mvwprintw(win, put_y + cell_height, put_x + (cell_width*2), "X");
+            cell_6_marked = 1;
+        }
+    }
+
     // cell 7
+    if (wy > boardOriginY + (cell_height*2) && wy < boardOriginY + (cell_height*3) && wx > boardOriginX && wx < boardOriginX + cell_width) {
+        if (cell_7_marked == 0) {
+            mvwprintw(win, put_y + (cell_height*2) + 1, put_x, "X");
+            cell_7_marked = 1;
+        }
+    }
+
     // cell 8
+    if (wy > boardOriginY + (cell_height*2) && wy < boardOriginY + (cell_height*3) && wx > boardOriginX + cell_width && wx < boardOriginX + (cell_width*2)) {
+        if (cell_8_marked == 0) {
+            mvwprintw(win, put_y + (cell_height*2) + 1, put_x + cell_width, "X");
+            cell_8_marked = 1;
+        }
+    }
+
     // cell 9
+    if (wy > boardOriginY + (cell_height*2) && wy < boardOriginY + (cell_height*3) && wx > boardOriginX + (cell_width*2) && wx < boardOriginX + (cell_width*3)) {
+        if (cell_9_marked == 0) {
+            mvwprintw(win, put_y + (cell_height*2) + 1, put_x + (cell_width*2), "X");
+            cell_9_marked = 1;
+        }
+    }
 
     wrefresh(win);
 }
@@ -89,12 +144,14 @@ int main() {
     nodelay(stdscr, TRUE);
 
     mvprintw(0, 0, "%s", R"(
- _   _           _                  _             
-| |_(_) ___     | |_ __ _  ___     | |_ ___   ___ 
-| __| |/ __|____| __/ _` |/ __|____| __/ _ \ / _ \
-| |_| | (_|_____| || (_| | (_|_____| || (_) |  __/
- \__|_|\___|     \__\__,_|\___|     \__\___/ \___|
- )");
+    ###################################################
+    ##   __  _         __               __           ##
+    ##  / /_(_)_______/ /____ _________/ /____  ___  ##
+    ## / __/ / __/___/ __/ _ `/ __/___/ __/ _ \/ -_) ##
+    ## \__/_/\__/    \__/\_,_/\__/    \__/\___/\__/  ##
+    ###################################################
+    )");
+
     refresh();
                                                   
     WINDOW* main_win = newwin(win_height, win_width, win_originY, win_originX);
