@@ -2,18 +2,11 @@
 #include <ncurses.h>
 #include <vector>
 #include <string>
+#include <array>
 
 using namespace std;
 
-static string cell_1_marked = "";
-static string cell_2_marked = "";
-static string cell_3_marked = "";
-static string cell_4_marked = "";
-static string cell_5_marked = "";
-static string cell_6_marked = "";
-static string cell_7_marked = "";
-static string cell_8_marked = "";
-static string cell_9_marked = "";
+array<string, 9> result = {};
 
 void draw_board(WINDOW *win, int boardOriginY, int boardOriginX, int cell_height, int cell_width, vector<vector<int>> &intersections) {
 
@@ -32,15 +25,6 @@ void draw_board(WINDOW *win, int boardOriginY, int boardOriginX, int cell_height
             mvwaddch(win, y_loc, x_loc, ACS_PLUS);
         }
     }
-    
-    //int text_height = 20;
-    //for (int i = 0; i < intersections.size(); i++) {
-    //    for (int j = 0; j < intersections[i].size(); j++) {
-    //        mvprintw(text_height, 10, "%d", intersections[i][j]);
-    //        text_height++;
-    //        refresh();
-    //    }
-    //}
 }
 
 void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX, int cell_height, int cell_width, vector<vector<int>> &intersections, const string &ch) {
@@ -49,73 +33,73 @@ void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX,
     int put_x = (cell_width + boardOriginX) / 2;
     // cell 1
     if (wy > boardOriginY && wy < boardOriginY + cell_height && wx > boardOriginX && wx < boardOriginX + cell_width) {
-        if (cell_1_marked.empty()) {
+        if (result[0].empty()) {
             mvwprintw(win, put_y, put_x, "%s", ch.c_str());
-            cell_1_marked = ch;
+            result[0] = ch;
         }
     }
 
     // cell 2
     if (wy > boardOriginY && wy < boardOriginY + cell_height && wx > boardOriginX + cell_width && wx < boardOriginX + (cell_width*2)) {
-        if (cell_2_marked.empty()) {
+        if (result[1].empty()) {
             mvwprintw(win, put_y, put_x + cell_width, "%s", ch.c_str());
-            cell_2_marked = ch;
+            result[1] = ch;
         }
     }
 
     // cell 3
     if (wy > boardOriginY && wy < boardOriginY + cell_height && wx > boardOriginX + (cell_width*2) && wx < boardOriginX + (cell_width*3)) {
-        if (cell_3_marked.empty()) {
+        if (result[2].empty()) {
             mvwprintw(win, put_y, put_x + (cell_width*2), "%s", ch.c_str());
-            cell_3_marked = ch;
+            result[2] = ch;
         }
     }
 
     // cell 4
     if (wy > boardOriginY + cell_height && wy < boardOriginY + (cell_height*2) && wx > boardOriginX && wx < boardOriginX + cell_width) {
-        if (cell_4_marked.empty()) {
+        if (result[3].empty()) {
             mvwprintw(win, put_y + cell_height, put_x, "%s", ch.c_str());
-            cell_4_marked = ch;
+            result[3] = ch;
         }
     }
 
     // cell 5
     if (wy > boardOriginY + cell_height && wy < boardOriginY + (cell_height*2) && wx > boardOriginX + cell_width && wx < boardOriginX + (cell_width*2)) {
-        if (cell_5_marked.empty()) {
+        if (result[4].empty()) {
             mvwprintw(win, put_y + cell_height, put_x + cell_width, "%s", ch.c_str());
-            cell_5_marked = ch;
+            result[4] = ch;
         }
     }
 
     // cell 6
     if (wy > boardOriginY + cell_height && wy < boardOriginY + (cell_height*2) && wx > boardOriginX + (cell_width*2) && wx < boardOriginX + (cell_width*3)) {
-        if (cell_6_marked.empty()) {
+        if (result[5].empty()) {
             mvwprintw(win, put_y + cell_height, put_x + (cell_width*2), "%s", ch.c_str());
-            cell_6_marked = ch;
+            result[5] = ch;
         }
     }
 
     // cell 7
     if (wy > boardOriginY + (cell_height*2) && wy < boardOriginY + (cell_height*3) && wx > boardOriginX && wx < boardOriginX + cell_width) {
-        if (cell_7_marked.empty()) {
+        if (result[6].empty()) {
             mvwprintw(win, put_y + (cell_height*2) + 1, put_x, "%s", ch.c_str());
-            cell_7_marked = ch;
+            result[6] = ch;
         }
     }
 
     // cell 8
     if (wy > boardOriginY + (cell_height*2) && wy < boardOriginY + (cell_height*3) && wx > boardOriginX + cell_width && wx < boardOriginX + (cell_width*2)) {
-        if (cell_8_marked.empty()) {
+        if (result[7].empty()) {
             mvwprintw(win, put_y + (cell_height*2) + 1, put_x + cell_width, "%s", ch.c_str());
-            cell_8_marked = ch;
+            result[7] = ch;
         }
     }
 
     // cell 9
     if (wy > boardOriginY + (cell_height*2) && wy < boardOriginY + (cell_height*3) && wx > boardOriginX + (cell_width*2) && wx < boardOriginX + (cell_width*3)) {
-        if (cell_9_marked.empty()) {
+        if (result[8].empty()) {
             mvwprintw(win, put_y + (cell_height*2) + 1, put_x + (cell_width*2), "%s", ch.c_str());
-            cell_9_marked = ch;
+            result[8] = ch;
         }
     }
 
