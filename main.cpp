@@ -6,6 +6,9 @@
 
 using namespace std;
 
+static const string player_1_char = "X";
+static const string player_2_char = "O";
+
 array<string, 9> result = {};
 
 void draw_board(WINDOW *win, int boardOriginY, int boardOriginX, int cell_height, int cell_width, vector<vector<int>> &intersections) {
@@ -106,13 +109,73 @@ void mark_input(WINDOW *win, int wy, int wx, int boardOriginY, int boardOriginX,
     wrefresh(win);
 }
 
-//int check_result() {
-//    // check cell marked variable
-//    // 0 = draw
-//    // 1 = X wins
-//    // 2 = 0 wins
-//
-//}
+int input_filled() {
+    for (int i = 0; i < result.size(); i++) {
+        if (result[i].empty()) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int check_result() {
+    // X wins return 1
+    // 0 wins return 2
+    // draw return 3
+
+    // horizontal checks
+    if (!result[0].empty() && !result[1].empty() && !result[2].empty()) {
+        if (result[0] == result[1] && result[1] == result[2]) {
+            return (result[0] == player_1_char) ? 1 : 2;
+        }   
+    }
+    if (!result[3].empty() && !result[4].empty() && !result[5].empty()) {
+        if (result[3] == result[4] && result[4] == result[5]) {
+            return (result[3] == player_1_char) ? 1 : 2;
+        }
+    }
+    if (!result[6].empty() && !result[7].empty() && !result[8].empty()) {
+        if (result[6] == result[7] && result[7] == result[8]) {
+            return (result[6] == player_1_char) ? 1 : 2;
+        }
+    }
+
+    // vertical checks
+    if (!result[0].empty() && !result[3].empty() && !result[6].empty()) {
+        if (result[0] == result[3] && result[3] == result[6]) {
+            return (result[0] == player_1_char) ? 1 : 2;
+        }
+    }
+    if (!result[1].empty() && !result[4].empty() && !result[7].empty()) {
+        if (result[1] == result[4] && result[4] == result[7]) {
+            return (result[1] == player_1_char) ? 1 : 2;
+        }
+    }
+    if (!result[2].empty() && !result[5].empty() && !result[8].empty()) {
+        if (result[2] == result[5] && result[5] == result[8]) {
+            return (result[2] == player_1_char) ? 1 : 2;
+        }
+    }
+
+    // diagonal checks
+    if (!result[0].empty() && !result[4].empty() && !result[8].empty()) {
+        if (result[0] == result[4] && result[4] == result[8]) {
+            return (result[0] == player_1_char) ? 1 : 2;
+        }
+    }
+    if (!result[2].empty() && !result[4].empty() && !result[6].empty()) {
+        if (result[2] == result[4] && result[4] == result[6]) {
+            return (result[2] == player_1_char) ? 1 : 2;
+        }
+    }
+
+    // everything is filled and no win condition met: draw
+    if (input_filled() == 1) {
+        return 3;
+    }
+
+    return 0;
+}
 
 int main() {
     int win_height = 12;
@@ -126,9 +189,7 @@ int main() {
     int cell_width = cell_height * 3;
     vector<vector<int>> intersections;
 
-    int click_x, click_y, ch;
-    const string player_1_char = "X";
-    const string player_2_char = "O";
+    int click_x, click_y, ch, winner;
 
     initscr();
     noecho();
@@ -166,10 +227,18 @@ int main() {
                   click_y = event.y - win_originY;
                   click_x = event.x - win_originX;
                   mark_input(main_win, click_y, click_x, board_originY, board_originX, cell_height, cell_width, intersections, player_1_char);
+                  winner = check_result();
+                  if (winner != 0) {
+                    break;
+                  }
               }
         }
         napms(10);
     }
     endwin();
+    if (winner == 1) cout << "Player 1 wins" << endl;   
+    if (winner == 2) cout << "Player 2 wins" << endl;   
+    if (winner == 3) cout << "Its a draw" << endl;   
+
     return 0;
 }
