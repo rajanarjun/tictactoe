@@ -190,6 +190,8 @@ int main() {
     vector<vector<int>> intersections;
 
     int click_x, click_y, ch, winner;
+    int player_1_turn = 1;
+    int player_2_turn = 0;
 
     initscr();
     noecho();
@@ -226,7 +228,16 @@ int main() {
             if (event.bstate & BUTTON1_CLICKED) {
                 click_y = event.y - win_originY;
                 click_x = event.x - win_originX;
-                mark_input(main_win, click_y, click_x, board_originY, board_originX, cell_height, cell_width, intersections, player_1_char);
+                if (player_1_turn == 1) {
+                    mark_input(main_win, click_y, click_x, board_originY, board_originX, cell_height, cell_width, intersections, player_1_char);
+                    player_1_turn = 0;
+                    player_2_turn = 1;
+                }
+                else if (player_2_turn == 1) {
+                    mark_input(main_win, click_y, click_x, board_originY, board_originX, cell_height, cell_width, intersections, player_2_char);
+                    player_1_turn = 1;
+                    player_2_turn = 0;
+                }
                 winner = check_result();
                 if (winner != 0) {
                     break;
