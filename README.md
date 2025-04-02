@@ -1,2 +1,1 @@
-# tictactoe
-tic-tac-toe game in c++, using ncurses to capture user input.
+# Tic-Tac-Toe game in c++ using ncurses library to capture user input.

@@ -177,7 +177,7 @@ int check_result() {
     return 0;
 }
 
-int main() {
+void play_game() {
     int win_height = 12;
     int win_width = 30;
     int win_originY = 10;
@@ -192,25 +192,6 @@ int main() {
     int click_x, click_y, ch, winner;
     int player_1_turn = 1;
     int player_2_turn = 0;
-
-    initscr();
-    noecho();
-    cbreak();
-
-    keypad(stdscr, TRUE);
-    mousemask(BUTTON1_CLICKED, NULL);
-    nodelay(stdscr, TRUE);
-
-    mvprintw(0, 0, "%s", R"(
-    ###################################################
-    ##   __  _         __               __           ##
-    ##  / /_(_)_______/ /____ _________/ /____  ___  ##
-    ## / __/ / __/___/ __/ _ `/ __/___/ __/ _ \/ -_) ##
-    ## \__/_/\__/    \__/\_,_/\__/    \__/\___/\__/  ##
-    ###################################################
-    )");
-
-    refresh();
 
     WINDOW* main_win = newwin(win_height, win_width, win_originY, win_originX);
     box(main_win, '|', '-');
@@ -240,16 +221,66 @@ int main() {
                 }
                 winner = check_result();
                 if (winner != 0) {
+                    if (winner == 1) {
+                        mvprintw(25, 5, "%s", "Player 1 Wins!");
+                    } else if (winner == 2) { 
+                        mvprintw(25, 5, "%s", "Player 2 Wins!");
+                    } else if (winner == 3) {
+                        mvprintw(25, 5, "%s", "Its a Draw!");
+                    }
+                    refresh();
                     break;
                 }
             }
         }
-        napms(10);
     }
-    endwin();
-    if (winner == 1) cout << "Player 1 wins" << endl;   
-    if (winner == 2) cout << "Player 2 wins" << endl;   
-    if (winner == 3) cout << "Its a draw" << endl;   
+    int nch;
+    keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
+    mvprintw(30, 5, "%s", "Press q to exit");
+    mvprintw(32, 5, "%s", "Press r to play again");
+    while (1) {
+        nch = getch();
+        if (nch == 'q') {
+            napms(10);
+            endwin();
+            break;
+        } else if (nch == 'r') {
+            result.fill("");
+            clear();
+            wclear(main_win);
+            box(main_win, '|', '-');
+            draw_board(main_win, board_originY, board_originX, cell_height, cell_width, intersections);
+            wrefresh(main_win);
+            refresh();
+            play_game();
+            break;
+        }
+    }
+}
+
+int main() {
+
+    initscr();
+    noecho();
+    cbreak();
+
+    keypad(stdscr, TRUE);
+    mousemask(BUTTON1_CLICKED, NULL);
+    nodelay(stdscr, TRUE);
+
+    mvprintw(0, 0, "%s", R"(
+    ###################################################
+    ##   __  _         __               __           ##
+    ##  / /_(_)_______/ /____ _________/ /____  ___  ##
+    ## / __/ / __/___/ __/ _ `/ __/___/ __/ _ \/ -_) ##
+    ## \__/_/\__/    \__/\_,_/\__/    \__/\___/\__/  ##
+    ###################################################
+    )");
+
+    refresh();
+    play_game();
 
     return 0;
+
 }
