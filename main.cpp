@@ -177,6 +177,17 @@ int check_result() {
     return 0;
 }
 
+void draw_ascii_art() {
+    mvprintw(0, 0, "%s", R"(
+    ###################################################
+    ##   __  _         __               __           ##
+    ##  / /_(_)_______/ /____ _________/ /____  ___  ##
+    ## / __/ / __/___/ __/ _ `/ __/___/ __/ _ \/ -_) ##
+    ## \__/_/\__/    \__/\_,_/\__/    \__/\___/\__/  ##
+    ###################################################
+    )");
+}
+
 void play_game() {
     int win_height = 12;
     int win_width = 30;
@@ -192,6 +203,16 @@ void play_game() {
     int click_x, click_y, ch, winner;
     int player_1_turn = 1;
     int player_2_turn = 0;
+
+    initscr();
+    noecho();
+    cbreak();
+    keypad(stdscr, TRUE);
+    mousemask(BUTTON1_CLICKED, NULL);
+    nodelay(stdscr, TRUE);
+
+    draw_ascii_art();
+    refresh();
 
     WINDOW* main_win = newwin(win_height, win_width, win_originY, win_originX);
     box(main_win, '|', '-');
@@ -235,10 +256,8 @@ void play_game() {
         }
     }
     int nch;
-    keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
-    mvprintw(30, 5, "%s", "Press q to exit");
-    mvprintw(32, 5, "%s", "Press r to play again");
+    mvprintw(27, 5, "%s", "Press q to exit");
+    mvprintw(28, 5, "%s", "Press r to play again");
     while (1) {
         nch = getch();
         if (nch == 'q') {
@@ -261,26 +280,7 @@ void play_game() {
 
 int main() {
 
-    initscr();
-    noecho();
-    cbreak();
-
-    keypad(stdscr, TRUE);
-    mousemask(BUTTON1_CLICKED, NULL);
-    nodelay(stdscr, TRUE);
-
-    mvprintw(0, 0, "%s", R"(
-    ###################################################
-    ##   __  _         __               __           ##
-    ##  / /_(_)_______/ /____ _________/ /____  ___  ##
-    ## / __/ / __/___/ __/ _ `/ __/___/ __/ _ \/ -_) ##
-    ## \__/_/\__/    \__/\_,_/\__/    \__/\___/\__/  ##
-    ###################################################
-    )");
-
-    refresh();
     play_game();
-
     return 0;
 
 }
